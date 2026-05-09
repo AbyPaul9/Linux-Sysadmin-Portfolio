@@ -1,6 +1,6 @@
 # User & Group Management + Role Based Access Control
 
-## Scenario: TechBridge Solutionsonboarded three departments(Devops, Developers,& Auditors). The IT infrastructure team was tasked with establishing a structured user and group management framework with role based access control, enforced password policies and shared collaborative storage for each department.
+## Scenario: TechBridge Solutions onboarded three departments(Devops, Developers & Auditors). The IT infrastructure team was tasked with establishing a structured user and group management framework with role based access control, enforced password policies and shared collaborative storage for each department.
 
 ## Environment
 - OS: Red Hat Enterprise Linux 10 (x86_64)
@@ -14,7 +14,7 @@
 
 - Created two users per group following enterprise naming convention
 
-- Enforced password ageing policies across all users(90 days maximum, 7 days minimum, 14 days warning period, 12 characters minimum length.
+- Enforced password aging policies across all users(90 days maximum, 7 days minimum, 14 days warning period, 12 characters minimum length).
 
 - Configured sudo access for the different groups created(full sudo for devops, limited command-specific for developers, no sudo for auditors)
 
@@ -34,7 +34,7 @@ auditors:x:1003:aud.james,aud.grace
 - command: useradd -G devops ops.mike ops.linda
 useradd -G developers dev.john dev.sarah
 useradd -G auditors aud.grace aud.james
-- verification: getent passwd dev.jon dev.sarah ops.mike ops.linda aud.grace aud.james
+- verification: getent passwd dev.john dev.sarah ops.mike ops.linda aud.grace aud.james
 - output: dev.sarah:x:1002:1005::/home/dev.sarah:/bin/bash
 ops.mike:x:1003:1006::/home/ops.mike:/bin/bash
 ops.linda:x:1004:1007::/home/ops.linda:/bin/bash
@@ -61,23 +61,23 @@ Number of days of warning before password expires	: 14
 - output: %devops ALL=(ALL) ALL
 
 ### Shared Directories
-- command: mkdir -p /srv/devops, mkdir -p /srv/developers, mkdir -p /srv/auditors, chown :devops /srv/devops, chown :developers /srv/developers, chown :auditors/srv/auditors, chmod 2770 /srv/devops, chmod 2770 /srv/developers, chmod 2770 /srv/auditors
+- command: mkdir -p /srv/devops, mkdir -p /srv/developers, mkdir -p /srv/auditors, chown :devops /srv/devops, chown :developers /srv/developers, chown :auditors /srv/auditors, chmod 2770 /srv/devops, chmod 2770 /srv/developers, chmod 2770 /srv/auditors
 - verification: ls -ld /srv/devops
 - output: drwxrws---. 2 root devops 6 May  3 06:34 /srv/devops
 
 ### Account Lock/Unlock
-- command: usermod -L aud.grace/usermod -p aud.grace
+- command: usermod -L aud.grace & usermod -p aud.grace
 - verification: passwd -S aud.grace
 - output:aud.grace P 2026-05-03 7 90 14 -1
 
-## Key Concept
-- Role Based Access Control restrict system access based on a user's role within the organization rather than individual permissions, reducing attackk surface and enforcing least priviledge.
+## Key Concepts
+- Role Based Access Control restrict system access based on a user's role within the organization rather than individual permissions, reducing attack surface and enforcing least priviledge.
 
 - SGID on directories ensures all files created inherit the parent directory's group ownership. This is critical for shared team collaboration without manual permission management .
 
 - Password aging enforces credential rotation, reducing the risk of compromised credentials remaining valid indefinitely.
 
-- Sudo access should always follow the prinsiples of least priviledge. Usersget only the elevated command their roles requires, nothing more.
+- Sudo access should always follow the principles of least priviledge. Users get only the elevated command their roles requires, nothing more.
 
 - Account locking preserves user data and audit trail during offboarding while immediately revoking access.
 
