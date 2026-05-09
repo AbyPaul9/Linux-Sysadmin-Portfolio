@@ -1,11 +1,11 @@
 # 01 - Enterprise Linux Server Initial Setup
 
-## Scenario:TechBridge Solutions provided a RHEL server for their development team. Before deployment, the IT infrastructure team required a hardened baselineconfiuration which covers System Identity, Time Synchronization, Resource Limits, Security Warnings, and Kernel-Level Tuning.
+## Scenario:TechBridge Solutions provided a RHEL server for their development team. Before deployment, the IT infrastructure team required a hardened baseline confiuration which covers System Identity, Time Synchronization, Resource Limits, Security Warnings, and Kernel-Level Tuning.
 
 ## Environment
 - OS: Red Hat Enterprise Linux 10 (x86_64)
 - Virtualization: Oracle VirtualBox 
-- HostName: server1.techbridge.local
+- Hostname: server1.techbridge.local
 - IP Address: 192.168.56.10
 - Role: Primary Application Server
 
@@ -36,9 +36,9 @@ System clock synchronized: yes
           RTC in local TZ: no
 
 ### 3. NTP/Chrony
-- systemctl status chronyd
+- systemctl status chronyd(chronyd was already active)
 - verification: chronyc tracking
-- output; 
+- output: 
 Reference ID    : 66CD2C10 (102.205.44.16)
 Stratum         : 3
 Ref time (UTC)  : Sat May 02 13:20:37 2026
@@ -63,7 +63,7 @@ Leap status     : Normal
 * soft core 0
 * hard core 0
 - Reasons:
-- nofile(Soft & Hard): A fintech application server handles thousands of TCP connections, database file descriptors, and log files handlesconcurrently. The default linux limit of 1024 is insufficient for production workloads. 65536(2^16) provides adequate headroom for high -concurrency applications while remaining within safe bounds to prevent file descriptor exhaustion.
+- nofile(Soft & Hard): A fintech application server handles thousands of TCP connections, database file descriptors, and log files handled concurrently. The default soft limit of 1024 is insufficient for production workloads. 65536(2^16) provides adequate headroom for high-concurrency applications while remaining within safe bounds to prevent file descriptor exhaustion.
 
 - nproc(Soft & Hard): This limit the number of processes a single user can spawn. Set conservatively at 4096 to mitigate fork bomb attack where a malicious or compromised user spawns unlimited child processes, exhausting the process table and rendering the server unresponsive.
 
@@ -85,9 +85,9 @@ Leap status     : Normal
 #                                                             #
 # Contact: itsupport@techbridge.com                           #
 ###############################################################
-- Reason:
+- Reasons:
 It includes server identity, purpose and IT contact information. Administrators logging into multiple servers know the exact server they are on and who to contact for escalations. 
-It also displays an unauthorized which establishes a legal notice
+It also displays an unauthorized access warning, which establishes a legal notice
 
 ### 6. Kernel Parameters
 - File Edited: /etc/sysctl.d/99-techbridge.conf
@@ -96,7 +96,7 @@ net.ipv4.ip_forward=0
 net.ipv4.tcp_syncookies=1
 net.ipv4.conf.all.accept_redirects=0
 kernel.randomize_va_space=2
-fs.filemax=100000
+fs.file-max=100000
 net.core.somaxconn=4096
 
 - Reasons:
@@ -110,13 +110,13 @@ net.core.somaxconn=4096
 
 - fs.file-max=100000 Sets the system-wide maximum number of open file descriptors across all processes. The value 100000 supports high concurrency fintech workloads without risking system-wide file descriptor exhaustion.
 
-- net.core.somaxconn = 4096 Sets the maximum length of the incoming connection queue for network sockets. 4096 ensures connection requests are queued rather than dropped during traffic spikes.
+- net.core.somaxconn=4096 Sets the maximum length of the incoming connection queue for network sockets. 4096 ensures connection requests are queued rather than dropped during traffic spikes.
 
 ## Key Concepts Learned
 - ulimits protect shared infrastructure from resource exhaustion by individual users or processes
 - sysctl exposes kernel tunables that controls network stack behaviour, memory layout and file system limits
 - soft limits warn users while hard limits enforce absolute ceilings
--kernel address space randomization mitigates memory exploitation attacks
+- kernel address space randomization mitigates memory exploitation attacks
 
 ## Lessons Learned
 - Git push failed through https because GitHub no longer supports password authentication. This was resolved by switching to SSH-key based authentication
