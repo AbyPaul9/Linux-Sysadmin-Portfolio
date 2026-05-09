@@ -1,6 +1,6 @@
 # 01 - Enterprise Linux Server Initial Setup
 
-## Scenario:TechBridge Solutions provided a RHEL server for their development team. Before deployment, the IT infrastructure team required a hardened baseline confiuration which covers System Identity, Time Synchronization, Resource Limits, Security Warnings, and Kernel-Level Tuning.
+## Scenario:TechBridge Solutions provided a RHEL server for their development team. Before deployment, the IT infrastructure team required a hardened baseline configuration which covers System Identity, Time Synchronization, Resource Limits, Security Warnings, and Kernel-Level Tuning.
 
 ## Environment
 - OS: Red Hat Enterprise Linux 10 (x86_64)
@@ -26,7 +26,7 @@
 
 ### 2. Timezone Configuration
 - timedatectl set-timezone Africa/Lagos
-- verification:timedatectl
+- verification: timedatectl
 - output:  Local time: Sat 2026-05-02 14:39:19 WAT
            Universal time: Sat 2026-05-02 13:39:19 UTC
                  RTC time: Sat 2026-05-02 13:39:19
