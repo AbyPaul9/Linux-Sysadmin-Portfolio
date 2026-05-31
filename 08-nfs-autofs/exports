@@ -1,0 +1,2 @@
+/srv/nfs/developers      192.168.56.20(rw,sync,no_subtree_check)
+/srv/nfs/devops          192.168.56.20(rw,sync,no_subtree_check)

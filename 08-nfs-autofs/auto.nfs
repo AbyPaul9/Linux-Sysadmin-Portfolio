@@ -1,0 +1,2 @@
+developers -rw,sync  192.168.56.10:/srv/nfs/developers
+devops -rw,sync      192.168.56.10:/srv/nfs/devops
