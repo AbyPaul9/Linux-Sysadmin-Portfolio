@@ -1,0 +1,10 @@
+[Unit]
+Description= Disk Usage Monitor
+
+[Service]
+ExecStart=/usr/local/bin/disk_usage.sh
+Restart=always
+User=ops.mike
+
+[Install]
+WantedBy=multi-user.target
